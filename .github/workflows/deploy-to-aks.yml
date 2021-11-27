@@ -77,8 +77,8 @@ jobs:
       id: kube-deploy
       run: |
         kubectl create namespace ${{inputs.namespace}} --dry-run=client -o json | kubectl apply -f -                  
-        kubectl apply -f ./deployment.yml --namespace=${{ inputs.namespace }}
-        kubectl apply -f ./service.yml --namespace=${{ inputs.namespace }}
+        kubectl apply -f ./kubernetes/deployment.yml --namespace=${{ inputs.namespace }}
+        kubectl apply -f ./kubernetes/service.yml --namespace=${{ inputs.namespace }}
         echo "🕚  - Wait 20s for service deployment"
         sleep 20s
         IP_SERVICE=$(kubectl get services -n ${{ inputs.namespace }}  -o json | jq -r '.items[] | select(.metadata.name == "$${{ inputs.app-name }}") | .status.loadBalancer?|.ingress[]?|.ip')
