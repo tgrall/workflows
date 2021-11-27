@@ -16,6 +16,9 @@ on:
       environment:
         required: true
         type: string
+      branch:
+        required: true
+        type: string
       app-name:
         required: true
         type: string
@@ -27,13 +30,6 @@ on:
       subscription-id:      
         required: true
 
-
-env:
-  AZ_RESOURCE_GROUP: "tgrall-demo"
-  AZ_CLUSTER_NAME: "tug-kube"
-  NAMESPACE_DEV: "development"
-  NAMESPACE_STAGING: "staging"
-  NAMESPACE_PROD: "production"
 
 permissions:
   id-token: write
@@ -65,6 +61,8 @@ jobs:
   
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: ${{ inputs.branch }}
 
     - name: Get AKS Credentials
       id: getContext
